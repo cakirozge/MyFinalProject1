@@ -42,39 +42,41 @@ namespace Business.Concrete
             //iş kodları
             if (DateTime.Now.Hour ==22)
             {
-                return new ErrorDataResult();
+                return new ErrorDataResult<List<Product>>(Messages.MaintenanceTime); //bakım zamanı.
             }
 
-
-
-
-
-            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), true, "Ürünler listelendi.");
-           
-           
-        }
-        public List<Product> GetAllByCategoryId(int id)
-        {
-            return _productDal.GetAll(p => p.CategoryId == id); //filtreleme görevi yapar.
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), Messages.ProductsListed);
         }
 
-        public Product GetById(int productId)
+        public IDataResult<List<Product>> GetAllByCategoryId(int id)
         {
-            return _productDal.Get(p=>p.ProductId == productId);    
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(p => p.CategoryId == id)); //filtreleme görevi yapar.
         }
 
-        public List<Product> GetByUnitPrice(decimal min, decimal max)
+        public IDataResult<Product> GetById(int productId)
         {
-            return _productDal.GetAll(p=>p.UnitPrice >=min && p.UnitPrice <= max);
-        }
-        public List<Product> GetByUnitsInStock(short unitsInStock)
-        {
-            return _productDal.GetAll(p=> p.UnitsInStock == unitsInStock);
+            return new SuccessDataResult<Product>(_productDal.Get(p=>p.ProductId == productId));    
         }
 
-        public List<ProductDetailDto> GetProductDetails()
+        public IDataResult<List<Product>> GetByUnitPrice(decimal min, decimal max)
         {
-            return _productDal.GetProductDetails();
+            return new SuccessDataResult<List<Product>>
+                ( _productDal.GetAll(p=>p.UnitPrice >=min && p.UnitPrice <= max));
+        }
+        public IDataResult<List<Product>> GetByUnitsInStock(short unitsInStock)
+        {
+            return new SuccessDataResult<List<Product>>
+                ( _productDal.GetAll(p=> p.UnitsInStock == unitsInStock));
+        }
+
+        public IDataResult<List<ProductDetailDto>> GetProductDetails()
+        {
+            //if (DateTime.Now.Hour == 23)
+            //{
+            //    return new ErrorDataResult<List<ProductDetailDto>>(Messages.MaintenanceTime); //bakım zamanı.
+            //}
+            return new SuccessDataResult<List<ProductDetailDto>>
+                (_productDal.GetProductDetails());
         }
     }
   
