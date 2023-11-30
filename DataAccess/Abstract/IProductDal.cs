@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace DataAccess.Abstract
     //her zaman veritabanı tablosunun interface yoksa bile oluştur.
     public interface IProductDal:IEntityRepository<Product> //product için yapılandırdım.
     {
-           
+        List<ProductDetailDto> GetProductDetails();
     }
 }
 
