@@ -15,6 +15,7 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Product> Products { get; set; } //DbSet: nesnedir. -- hangi nesnemiz hangi nesneye geleceksebunu "DbSet" ile sağlarız. hangi classım hangi tabloya karsılık geliyor.
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 
 }
