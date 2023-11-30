@@ -1,10 +1,12 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,19 +25,31 @@ namespace Business.Concrete
         public IResult Add(Product product) //void: özel bir tip döndürmez.
         {
             //business codes 
+
+
             if (product.ProductName.Length < 2)
             {
-                return new ErrorResult("Ürün ismi en az 2 karakter olmalıdır.");
+                //magic strings
+                return new ErrorResult(Messages.ProductNameInvalid);
             }
-
             _productDal.Add(product);
-            return new SuccessResult("Ürün eklendi.");
+
+            return new SuccessResult(Messages.ProductAdded);
         }
 
-        public List<Product> GetAll() //List döndürür
+        public IDataResult<List<Product>> GetAll() //List döndürür
         {
             //iş kodları
-            return _productDal.GetAll();
+            if (DateTime.Now.Hour ==22)
+            {
+                return new ErrorDataResult();
+            }
+
+
+
+
+
+            return new SuccessDataResult<List<Product>>(_productDal.GetAll(), true, "Ürünler listelendi.");
            
            
         }
